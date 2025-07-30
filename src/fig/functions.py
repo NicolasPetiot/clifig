@@ -39,16 +39,26 @@ def init(pkl = DEFAULT_PKL):
     """
     logger.debug(f"Running `init` with pkl = {pkl}")
 
-    # Reinitialize backups:
+    clear_backups(pkl)
+
+    # Initialize PKL
+    fig, ax = plt.subplots()
+    save(fig, ax, pkl=pkl, backup=False)
+
+def clear_backups(pkl = DEFAULT_PKL):
+    """
+    Command used to clear all backups of a given figure
+    """
+    logger.debug(f"Running `clear` with pkl = {pkl}")
     filename = pkl.name
     dirname = pkl.parents[0]
     pattern = str(dirname / f"#{filename}*#")
     for backup in glob(pattern):
         remove(backup)
 
-    # Initialize PKL
-    fig, ax = plt.subplots()
-    save(fig, ax, pkl=pkl, backup=False)
+    if pkl.exists():
+        remove(pkl)
+
 
 def load_data(data:Path):
     logger.debug(f"Running `load_data` with data = {data}")
@@ -76,7 +86,7 @@ def create_backup(file:Path):
 
     backupname = dirname / f"#{filename}.{Nbackup + 1}#"
     copy2(src = file, dst = backupname)
-    logger.debug(f"Backup made in file {backupname}")
+    logger.info(f"Backup made in file {backupname}")
 
 def load_backup(file:Path):
     logger.debug(f"Loading backup of file {file}")

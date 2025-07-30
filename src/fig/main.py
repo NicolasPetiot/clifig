@@ -1,5 +1,5 @@
 from .logger import log as logger
-from .functions import init, load, load_data, save, show_fig, load_backup
+from .functions import init, load, load_data, save, show_fig, load_backup, clear_backups
 from .params import DEFAULT_PKL
 
 import click
@@ -15,6 +15,12 @@ def cli():
 def new(pkl:Path):
     logger.debug("Running `new`")
     init(pkl)
+
+@cli.command
+@click.option("-p", "--pkl", type = Path, help = "Path to figure PKL", default = DEFAULT_PKL)
+def clear(pkl:Path):
+    logger.debug("Running `new`")
+    clear_backups(pkl)
 
 @cli.command
 @click.argument("data", type = Path)
