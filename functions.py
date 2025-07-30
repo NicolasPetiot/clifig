@@ -5,6 +5,9 @@ from init_matplotlib import mpl, plt
 import pickle
 import pandas as pd
 from pathlib import Path
+from glob import glob
+from shutil import move, copy2
+
 def load(pkl = DEFAULT_PKL):
     """
     Command used to load the (fig, ax) tuple
@@ -44,3 +47,40 @@ def show_fig(fig):
     logger.debug("Running `show`")
 
     plt.show()
+
+def create_backup(file:Path):
+    logger.debug("Creating backup")
+
+    if not file.exists():
+        raise FileNotFoundError(f"No such file: {file}")
+    
+    filename = file.name
+    dirname = file.parents[0]
+
+    pattern = f"#{file}*#"
+    Nbackup = len(glob(pattern))
+    logger.debug(f"Found {Nbackup} existing backup")
+
+    backupname = dirname / f"#{filename}.{Nbackup + 1}#"
+    copy2(src = file, dst = backupname)
+    logger.debug(f"Backup made in file {backupname}")
+
+def load_backup(file:Path):
+    logger.debug("Loading backup")
+
+    if not file.exists():
+        raise FileNotFoundError(f"No such file: {file}")
+    
+    filename = file.name
+    dirname = file.parents[0]
+
+    pattern = f"#{file}*#"
+    Nbackup = len(glob(pattern))
+    logger.debug(f"Found {Nbackup} existing backup")
+
+    backupname = dirname / f"#{filename}.{Nbackup + 1}#"
+    move(src=backupname, dst=file)
+    logger.debug(f"Used {backupname} as backup")
+
+
+

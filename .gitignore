@@ -1,3 +1,6 @@
 *.csv
 *.pkl
+\#*\#
+*.ipynb
+
 __pycache__/
