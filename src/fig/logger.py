@@ -1,4 +1,5 @@
-from params import LOG_LVL, LOG_FMT, DATE_FMT
+from .params import LOG_LVL, LOG_FMT, DATE_FMT
+
 import logging
 
 log = logging.getLogger(__name__)

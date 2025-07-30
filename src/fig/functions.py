@@ -1,6 +1,6 @@
-from params import DEFAULT_PKL
-from logger import log as logger
-from init_matplotlib import plt
+from .params import DEFAULT_PKL
+from .logger import log as logger
+from .init_matplotlib import plt
 
 import pickle
 import pandas as pd

@@ -1,5 +1,5 @@
-from params import MPL_BACKEND
-from logger import log as logger
+from .params import MPL_BACKEND
+from .logger import log as logger
 
 import matplotlib as mpl
 mpl.use(MPL_BACKEND)
